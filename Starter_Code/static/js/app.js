@@ -40,9 +40,30 @@ function optionChanged(sample_id) {
     let sample_data = json_data["samples"].filter(id_filter);
     let sample_metadata = json_data["metadata"].filter(id_filter);
     console.log(sample_data);
-    console.log(sample_metadata);
+    console.log(sample_metadata[0]);
 
+    //metadata table
+    function unwrap(item) {
 
+      //delete previous data
+      let demo_table_rows = d3.selectAll("p");
+      demo_table_rows.remove();
+
+      
+      let demographics = [];
+      for(var key in item[0]) {
+        demographics.push(`${key}: ${item[0][key]}`);
+      }
+      console.log(item);
+      console.log(demographics);
+      return demographics;
+    }
+
+    let metadata = unwrap(sample_metadata);
+    for(let i=0; i < metadata.length; i++) {
+    let demographics = d3.select('#sample-metadata').append('p').text(metadata[i])
+    }
+    
 
   });
 }
