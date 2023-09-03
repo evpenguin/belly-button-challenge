@@ -92,6 +92,38 @@ function optionChanged(sample_id) {
     Plotly.newPlot('bar', horizontal_bar);
 
     //bubble chart
+    let bubble = [{
+      x: sample_data.otu_ids,
+      y: sample_data.sample_values,
+      text: sample_data.otu_labels,
+      mode: 'markers',
+      marker: {
+        size: sample_data.sample_values
+      }
+    }];
+
+    Plotly.newPlot('bubble', bubble);
+
+    //gauge 
+    var gauge_data = [
+      {
+        domain: { x: [0, 1], y: [0, 1] },
+        value: sample_metadata.wfreq,
+        title: { text: "Belly Button Washing Frequency" },
+        type: "indicator",
+        mode: "gauge+number",
+        gauge: {
+          axis: { range: [null, 9] },
+          steps: [
+            { range: [0, 1], color: "white" },
+            { range: [1, 2], color: "green" }
+          ],
+          bar: { color: "black"}
+      }
+  }];
     
+    var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+    Plotly.newPlot('gauge', gauge_data, layout);
+
   });
 }
