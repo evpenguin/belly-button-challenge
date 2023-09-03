@@ -1,0 +1,48 @@
+const samples = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+
+//datapromie 
+const dataPromise = d3.json(samples);
+console.log("Data Promise: ", dataPromise);
+
+//load data
+d3.json(samples).then(function(data) {
+    const json_data = data
+    console.log(json_data); 
+    
+    //populate the dropdown list
+    create_dropdowns(json_data);
+});
+
+//populates the dropdown list with all the sample ID's
+function create_dropdowns(json_data) {
+    console.log(json_data);
+    let dropdownMenu = d3.select("#selDataset")
+    let names = json_data.names;
+    for(let i = 0; i < names.length; i++) {
+        dropdownMenu.append("option").text(names[i]).property("value", names[i]);
+    }
+};
+
+
+// This function is called when a dropdown menu item is selected, it refreshed all the graphs
+function optionChanged(sample_id) {
+  //load data so we can work with it
+  d3.json(samples).then(function(data) {
+    const json_data = data
+    console.log(json_data); 
+  
+    //filter function to select the sample we want to work with
+    function id_filter(sample) {
+      return sample.id == sample_id;
+    }
+  
+    //assign sample data to variables and log
+    let sample_data = json_data["samples"].filter(id_filter);
+    let sample_metadata = json_data["metadata"].filter(id_filter);
+    console.log(sample_data);
+    console.log(sample_metadata);
+
+
+
+  });
+}
