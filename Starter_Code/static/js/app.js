@@ -49,7 +49,7 @@ function optionChanged(sample_id) {
       let demo_table_rows = d3.selectAll("p");
       demo_table_rows.remove();
 
-      
+      //create array of strings with the info
       let demographics = [];
       for(var key in item) {
         demographics.push(`${key}: ${item[key]}`);
@@ -58,15 +58,20 @@ function optionChanged(sample_id) {
       return demographics;
     }
 
+    //unwrap metadata into strings
     let metadata = unwrap(sample_metadata);
+    //add new paragraph element for each line of metadata
     for(let i=0; i < metadata.length; i++) {
     let demographics = d3.select('#sample-metadata').append('p').text(metadata[i])
     }
     
     //bar chart
+    //restructure, sort and slice data
     let prepped_data = prep_sort(sample_data);
     let sorted_by_sample_values = prepped_data.sort((a, b) => b.sample_values - a.sample_values);
     let sample_values_slice = sorted_by_sample_values.slice(0,10);
+    sample_values_slice.reverse();
+    //create bar data
     let horizontal_bar = [{
       type: "bar",
       x: sample_values_slice.map(item => item.sample_values),
@@ -87,9 +92,13 @@ function optionChanged(sample_id) {
       return unzipped;
     };
 
+    let bar_layout = {
+      title: 'Top 10 OTU\'s '
+    }
+
     console.log(prep_sort(sample_data))
 
-    Plotly.newPlot('bar', horizontal_bar);
+    Plotly.newPlot('bar', horizontal_bar, bar_layout, {responsive: true});
 
     //bubble chart
     let bubble = [{
@@ -98,11 +107,22 @@ function optionChanged(sample_id) {
       text: sample_data.otu_labels,
       mode: 'markers',
       marker: {
-        size: sample_data.sample_values
+        size: sample_data.sample_values,
+        color: sample_data.otu_ids,
+        colorscale: 'Earth'
       }
     }];
 
-    Plotly.newPlot('bubble', bubble);
+    let bubble_layout = {
+      xaxis: {
+        title: {
+          text: "OTU ID"
+        }
+      },
+    };
+
+    console.log(sample_data.otu_ids);
+    Plotly.newPlot('bubble', bubble, bubble_layout, {responsive: true});
 
     //gauge 
     var gauge_data = [
@@ -123,7 +143,7 @@ function optionChanged(sample_id) {
   }];
     
     var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
-    Plotly.newPlot('gauge', gauge_data, layout);
+    Plotly.newPlot('gauge', gauge_data, layout, {responsive: true});
 
   });
 }
