@@ -1,5 +1,5 @@
 # Challenge 14 - Belly Button Biodiversity Dataset
-Build an interactive dashboard to explore the Belly Button Biodiversity datasetLinks to an external site., which catalogues the microbes that colonise human navels.
+Build an interactive dashboard to explore the Belly Button Biodiversity dataset, which catalogues the microbes that colonise human navels.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ Uses data from [Belly Button Biodiversity](http://robdunnlab.com/projects/belly-
 [Visit Site Here](https://evpenguin.github.io/belly-button-challenge/)
 
 ## Installing
-Download the Starter_Code folder and open the HTMl with any browser. 
+Download the Starter_Code folder and open the HTML with any browser. 
 
 ## Usage
 Displays interactive graphs about belly button biodiversity. 
