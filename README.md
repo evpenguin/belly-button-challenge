@@ -14,7 +14,7 @@ The HTML and js files are found in Starter_code.
 Uses data from [Belly Button Biodiversity](http://robdunnlab.com/projects/belly-button-biodiversity/).
 
 ## Getting Started
-
+[Visit Site Here](https://evpenguin.github.io/belly-button-challenge/)
 
 ## Installing
 Download the Starter_Code folder and open the HTMl with any browser. 
