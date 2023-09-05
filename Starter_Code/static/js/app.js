@@ -21,6 +21,7 @@ function create_dropdowns(json_data) {
     for(let i = 0; i < names.length; i++) {
         dropdownMenu.append("option").text(names[i]).property("value", names[i]);
     }
+    optionChanged("940");
 };
 
 
@@ -39,10 +40,10 @@ function optionChanged(sample_id) {
     //assign sample data to variables and log
     let sample_data = json_data["samples"].filter(id_filter)[0];
     let sample_metadata = json_data["metadata"].filter(id_filter)[0];
-    console.log(sample_data);
-    console.log(sample_metadata);
 
     //metadata table
+    //this function 'unzips' the metadata json so we can more easily work with it
+    //it also empties the demographics table
     function unwrap(item) {
 
       //delete previous data
@@ -80,6 +81,7 @@ function optionChanged(sample_id) {
       orientation: 'h'
     }];
 
+    //this 'unzips' the json data so the sort function will work properly on it
     function prep_sort(dictionary) {
       unzipped = [];
       for(let i = 0; i < dictionary.sample_values.length; i++) {
@@ -92,12 +94,12 @@ function optionChanged(sample_id) {
       return unzipped;
     };
 
+    //add title
     let bar_layout = {
       title: 'Top 10 OTU\'s '
     }
 
-    console.log(prep_sort(sample_data))
-
+    //plot the bar chart
     Plotly.newPlot('bar', horizontal_bar, bar_layout, {responsive: true});
 
     //bubble chart
@@ -113,6 +115,7 @@ function optionChanged(sample_id) {
       }
     }];
 
+    //add x-axis label
     let bubble_layout = {
       xaxis: {
         title: {
@@ -121,29 +124,29 @@ function optionChanged(sample_id) {
       },
     };
 
-    console.log(sample_data.otu_ids);
+    //plot bubble
     Plotly.newPlot('bubble', bubble, bubble_layout, {responsive: true});
 
-    //gauge 
-    var gauge_data = [
-      {
-        domain: { x: [0, 1], y: [0, 1] },
-        value: sample_metadata.wfreq,
-        title: { text: "Belly Button Washing Frequency" },
-        type: "indicator",
-        mode: "gauge+number",
-        gauge: {
-          axis: { range: [null, 9] },
-          steps: [
-            { range: [0, 1], color: "white" },
-            { range: [1, 2], color: "green" }
-          ],
-          bar: { color: "black"}
-      }
-  }];
+  //   //gauge - no way mate, way to much for a weekly challenge
+  //   var gauge_data = [
+  //     {
+  //       domain: { x: [0, 1], y: [0, 1] },
+  //       value: sample_metadata.wfreq,
+  //       title: { text: "Belly Button Washing Frequency" },
+  //       type: "indicator",
+  //       mode: "gauge+number",
+  //       gauge: {
+  //         axis: { range: [null, 9] },
+  //         steps: [
+  //           { range: [0, 1], color: "white" },
+  //           { range: [1, 2], color: "green" }
+  //         ],
+  //         bar: { color: "black"}
+  //     }
+  // }];
     
-    var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
-    Plotly.newPlot('gauge', gauge_data, layout, {responsive: true});
+  //   var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+  //   Plotly.newPlot('gauge', gauge_data, layout, {responsive: true});
 
   });
 }
